@@ -174,10 +174,17 @@ NOTES:
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 4
  *   Rating: 1
+ *
+ * In a 32 bit 2's complement representation, the first bit is a sign bit.
+ * The smallest number in a 32 bit 2's complement representation is then:
+ * 1000 0000 0000 0000 0000 0000 0000 0000.
+ * We shift the binary value of 1 (in a 32 bit representation):
+ * 0000 0000 0000 0000 0000 0000 0000 0001
+ * to the left 31 times to get the correct number.
  */
 int tmin(void)
 {
-   return 2;
+   return 1 << 31;
 }
 // 2
 /*
@@ -186,10 +193,14 @@ int tmin(void)
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
  *   Rating: 2
+ *
+ * Negating a number is when you change a positive bitwise number into
+ * a negative bitwise number or vice versa (2's complement rule).
+ * This is when you flip all the bits and add 1.
  */
 int negate(int x)
 {
-   return 2;
+   return ~x + 1;
 }
 // 3
 /*
