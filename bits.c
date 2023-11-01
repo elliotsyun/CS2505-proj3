@@ -1,7 +1,7 @@
 /*
  * CS:APP Data Lab
  *
- * elliotyun (Elliot Yun) and <JADE put userid and name here>
+ * elliotyun (Elliot Yun) and jkgroener (Jade Groener)
  *
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
@@ -177,7 +177,7 @@ NOTES:
  */
 int tmin(void)
 {
-   return 2;
+   return 1 << 31;
 }
 // 2
 /*
@@ -189,7 +189,7 @@ int tmin(void)
  */
 int negate(int x)
 {
-   return 2;
+   return ~x + 1;
 }
 // 3
 /*
@@ -201,7 +201,11 @@ int negate(int x)
  */
 int isLess(int x, int y)
 {
-   return 2;
+   // (x ^ y): compare the bits of x and y, return 1 if different and 0 if the same, finds differing bits
+   // (1 << 31): create a mask for the sign bit, most significant bit is 1
+   // ((x ^ y) & (1 << 31)): isolate sign bit and make the other bits 0
+   // (>> 31): right shift sign bit to all bits, 1 if x<y and 0 if y<=x
+   return ((x ^ y) & (1 << 31)) >> 31;
 }
 // 4
 /*
