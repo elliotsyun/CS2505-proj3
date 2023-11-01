@@ -205,7 +205,7 @@ int isLess(int x, int y)
    // (1 << 31): create a mask for the sign bit, most significant bit is 1
    // ((x ^ y) & (1 << 31)): isolate sign bit and make the other bits 0
    // (>> 31): right shift sign bit to all bits, 1 if x<y and 0 if y<=x
-   return ((x ^ y) & (1 << 31)) >> 31;
+   return ((x ^ y) & (1 << 31) >> 31);
 }
 // 4
 /*
@@ -218,5 +218,9 @@ int isLess(int x, int y)
  */
 int logicalNeg(int x)
 {
-   return 2;
+   // (x | (~x + 1)): x or -x, preserves the sign while inverting the bits
+   // (>> 31): right shift 31 bits, all bits become sign bit
+   // (& 1): mask the result, make the result 1 or 0
+   // (^ 1): compare the bits, return 1 if different and 0 if the same
+   return (((x | (~x + 1)) >> 31) & 1) ^ 1;
 }
