@@ -201,11 +201,19 @@ int negate(int x)
  */
 int isLess(int x, int y)
 {
-   // (x ^ y): compare the bits of x and y, return 1 if different and 0 if the same, finds differing bits
-   // (1 << 31): create a mask for the sign bit, most significant bit is 1
-   // ((x ^ y) & (1 << 31)): isolate sign bit and make the other bits 0
-   // (>> 31): right shift sign bit to all bits, 1 if x<y and 0 if y<=x
-   return ((x ^ y) & (1 << 31) >> 31);
+   // x_sign (x >> 31): right shift x 31 bits, finds if x is positive (0) or negative (-1)
+   // y_sign (y >> 31): right shift y 31 bits, finds if y is positive (0) or negative (-1)
+   // diff (x_sign ^ y_sign): XOR x and y, -1 if different sign bits and 0 if the same
+   // ~x + y: adds y to complement of x
+   // result >> 31: right shift the result of the above 31 bits, finding the sign bit (0 or -1)
+   // result | diff: OR between the result of the above and diff, combines the sign bits
+   // result ^ (diff & x_sign): XOR result of the above and result of diff & sign
+   // diff & x_sign: preserves the sign of x if diff and x_sign are different, 0 if they are the same, sign of x if different
+   // !(result): negates the result to return 0 (false) if x is greater than or equal to y or 1 (true) if x is less than y
+   int x_sign = x >> 31;
+   int y_sign = y >> 31;
+   int diff = x_sign ^ y_sign;
+   return !((((~x + y) >> 31) | diff) ^ (diff & x_sign));
 }
 // 4
 /*
