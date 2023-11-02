@@ -177,6 +177,9 @@ NOTES:
  */
 int tmin(void)
 {
+   // left shift the binary representation of 1 to the left 31 positions
+   // 00000000000000000000000000000001 -> 10000000000000000000000000000000
+   // from least significant to most significant bit
    return 1 << 31;
 }
 // 2
@@ -189,6 +192,8 @@ int tmin(void)
  */
 int negate(int x)
 {
+   // ~x: inverts all bits of x
+   // ~x + 1: increments the inverted binary value, which negates the original x
    return ~x + 1;
 }
 // 3
